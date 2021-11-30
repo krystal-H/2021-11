@@ -22,17 +22,22 @@ console.log(all)
 
 // 自己实现深拷贝（递归拷贝  要一层层的拷贝）
 // 掌握类型判断  typeof  instanceof  Object.prototype.toString.call  constructor
-function deepClone(obj) {
+function deepClone(obj, hashWeakmap = new WeakMap()) {
   if (obj == null) return obj
   if (obj instanceof Date) return new Date(obj)
   if (obj instanceof RegExp) return new RegExp(obj)
   if (typeof obj !== 'object') return obj
 
+  if (hashWeakmap.has(obj)) return hashWeakmap.get(obj) // 如果weakmap中有对象就直接返回   循环引用的问题
+
   // 数组/对象
   let cloneObj = new obj.constructor
+  // 如果是对象把他放在weakmap中，如果再拷贝这个对象时这个对象就存在了，直接返回这个对象即可
+  hashWeakmap.set(obj, cloneObj)
   for (let key in obj) { // 实现深拷贝
     if (obj.hasOwnProperty(key)) {//自身私有属性，不包含从原型链上继承的属性
-      cloneObj[key] = deepClone(obj[key])
+      // 如果赋予的值是对象  我就把这个对象放在weakmap中
+      cloneObj[key] = deepClone(obj[key], hashWeakmap)
     }
   }
   return cloneObj
