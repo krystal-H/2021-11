@@ -20,3 +20,33 @@ let newSay = say.before(() => {
 })
 
 newSay('hello')
+
+
+// 2)我们可以通过高阶函数来实现的参数的保留
+
+// 判断一个变量的类型：
+// typeof只能判断基础类型  
+// instanceof判断实例类型  
+// constructor可以看当前实例有谁构造出来的
+// Object.prototype.toString.call()
+
+// function isType(val, type) {
+//   return Object.prototype.toString.call(val) === `[object ${type}]`
+// }
+// // 这样写有弊端，假如用户的type输入错了，结果就出错
+// console.log(isType('hello', 'String'))
+// console.log(isType(12, 'String'))
+
+// so，改造一下  利用高阶函数实现type的保留，只需用户传入值就可以判断
+
+function isType(type) {
+  return (val) => {
+    return Object.prototype.toString.call(val) === `[object ${type}]`
+  }
+}
+
+// 利用高阶函数保留参数变量 -> 函数柯里化、函数的反柯里化
+let isString = isType('String') // 闭包：函数声明的作用域和执行的作用域不一样，这时候就会导致闭包
+
+console.log(isString('hello'))
+console.log(isString(12))
