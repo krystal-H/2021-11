@@ -11,12 +11,14 @@ class Animal {
 
   say () { // 原型上的方法
     console.log('说话')
-    console.log(this) // es6 规范里  如果单独调用原型上的方法  this是不存在的
+    console.log(this, '-----先取say再调用，let say = animal.say;say()') // es6 规范里  如果单独调用原型上的方法  this是不存在的
   }
 }
 
 // 1) 类不能当做函数调用  只能new
-// let animal = new Animal()
+let animal = new Animal()
+let say = animal.say
+say()
 // console.log(animal.say)
 // console.log(Animal.flag, Animal.flag2())
 // 静态方法是类上的方法

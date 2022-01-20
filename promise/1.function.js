@@ -50,3 +50,7 @@ let isString = isType('String') // 闭包：函数声明的作用域和执行的
 
 console.log(isString('hello'))
 console.log(isString(12))
+
+
+// 函数柯里化 就是将多个参数转化成一次传入一个参数
+// 异步编程问题 主要有一个并发处理的问题
