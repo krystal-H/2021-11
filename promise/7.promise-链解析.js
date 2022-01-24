@@ -1,25 +1,27 @@
 
-const fs = require('fs')
-const path = require('path')
-
 const Promise = require('./my-promise/promise')
 
 let p1 = new Promise((resolve, reject) => {
-  // resolve(100)
+  resolve(100)
   // reject('失败')
-  setTimeout(() => {
-    // resolve(100)
-    reject('reject')
-  }, 1000);
+  // setTimeout(() => {
+  //   resolve(100)
+  //   // reject('reject')
+  // }, 1000);
 }).then(data => {
-  return data
+  // return data // 1.x---普通值
+  // throw new Error('失败') // 2.x---抛错
+  // 3. x---返回的是个promise
+  return new Promise((resolve, reject) => {
+    
+  })
 }, err => {
   return err
 })
 
 p1.then(data => {
   console.log(data,'00000')
-})
+}, err => console.log(err))
 
 // x 就是then方法中的返回值
 // p1 调用then后返回的新的promise
