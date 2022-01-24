@@ -21,9 +21,20 @@ const p1 = new Promise((resolve, reject) => {
   // console.log(1)
   // throw new Error()
   // resolve('成功')
-  reject('失败')
+  // reject('失败')
+
+  setTimeout(() => {
+    resolve('success')
+  }, 1000)
+
 })
 // console.log(2)
+p1.then((value) => { // then里边要有两个参数onFulfilld  onRejected
+  console.log('成功---------', value)
+}, (reason) => {
+  console.log('失败---------', reason)
+})
+
 p1.then((value) => { // then里边要有两个参数onFulfilld  onRejected
   console.log('成功---------', value)
 }, (reason) => {

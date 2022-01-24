@@ -7,17 +7,21 @@ class Promise {
     this.status = PENDING // promise的默认状态
     this.value = undefined // 成功的值
     this.reason = undefined // 失败的原因
+    this.onFulfilledCallbacks = [] // 所有成功的回调，为了存储异步执行
+    this.onRejectedCallbacks = [] // 所有失败的回调，为了存储异步执行
     
     const resolve = (value) => { // 更改状态的方法  resolve
       if (this.status === PENDING) {
         this.value = value
         this.status = FULFILLED
+        this.onFulfilledCallbacks.forEach(cb => cb(this.value))
       }
     }
     const reject = (reason) => {// 更改状态的方法  reject
       if (this.status === PENDING) {
         this.reason = reason
         this.status = REJECTED
+        this.onRejectedCallbacks.forEach(cb => cb(this.reason))
       }
     }
     try {
@@ -32,6 +36,10 @@ class Promise {
     }
     if (this.status === REJECTED) {
       onRejected(this.reason)
+    }
+    if (this.status === PENDING) {
+      this.onFulfilledCallbacks.push(onFulfilled)
+      this.onRejectedCallbacks.push(onRejected)
     }
   }
 }
