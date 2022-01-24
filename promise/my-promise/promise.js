@@ -38,6 +38,7 @@ class Promise {
       onRejected(this.reason)
     }
     if (this.status === PENDING) {
+      // 发布订阅  有可能调then的时候没成功也没失败，我就将回调存起来，稍后根据用户调用的方法再进行执行
       this.onFulfilledCallbacks.push(onFulfilled)
       this.onRejectedCallbacks.push(onRejected)
     }

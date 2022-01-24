@@ -23,6 +23,7 @@ const p1 = new Promise((resolve, reject) => {
   // resolve('成功')
   // reject('失败')
 
+  // 模拟异步
   setTimeout(() => {
     resolve('success')
   }, 1000)
