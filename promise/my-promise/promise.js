@@ -32,6 +32,7 @@ class Promise {
   }
   // then返回一个promise才可以继续 .then
   then(onFulfilled, onRejected) { // 调用then的时候会判断是成功还是失败
+    // 可以不停的then下去
     let p1 = new Promise((resolve, reject) => {
       if (this.status === FULFILLED) {
         let x = onFulfilled(this.value)
