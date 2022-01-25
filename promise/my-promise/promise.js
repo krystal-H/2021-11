@@ -3,9 +3,20 @@ const FULFILLED = 'FULFILLED'
 const REJECTED = 'REJECTED'
 
 function resolvePromise(promise, x, resolve, reject) {
-  console.log(promise)
+  // console.log(promise)
   // 核心——用x的值来决定promise 走resolve还是reject
   // 我们要考虑不同人写的promise可以互相兼容，所以这里要按照规范来实现，保证promise直接可以互相调用
+  if (promise == x) {
+    return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
+  }
+
+  // 判断x是不是一个promise   如果不是promise,则直接用这个值将promise变成成功态即可
+  if (typeof x === 'object' && x != null || typeof x ==='function') {
+    
+  } else {// x不是对象或函数  普通值
+    resolve(x)
+  }
+
 }
 
 class Promise {
@@ -42,47 +53,47 @@ class Promise {
     let p1 = new Promise((resolve, reject) => {
       // x是个普通值时，则将这个值直接传入到resolve中即可
       if (this.status === FULFILLED) {
-        try {
-          let x = onFulfilled(this.value)
-          // 使用setTimeout为了resolvePromise方法可以取到p1  规范中提及
-          setTimeout(() => {
+        // 使用setTimeout为了resolvePromise方法可以取到p1  规范中提及
+        setTimeout(() => {
+          try {
+            let x = onFulfilled(this.value)
             resolvePromise(p1, x, resolve, reject)
-          });
-        } catch (e) {
-          reject(e)
-        }
+          } catch (e) {
+            reject(e)
+          }
+        });
       }
       if (this.status === REJECTED) {
-        try {
-          let x = onRejected(this.reason)
-          setTimeout(() => {
+        setTimeout(() => {
+          try {
+            let x = onRejected(this.reason)
             resolvePromise(p1, x, resolve, reject)
-          });
-        } catch (e) {
-          reject(e)
-        }
+          } catch (e) {
+            reject(e)
+          }
+        });
       }
       if (this.status === PENDING) {
         // 发布订阅  有可能调then的时候没成功也没失败，我就将回调存起来，稍后根据用户调用的方法再进行执行
         this.onFulfilledCallbacks.push(() => {
-          try {
-            let x = onFulfilled(this.value)
-            setTimeout(() => {
+          setTimeout(() => {
+            try {
+              let x = onFulfilled(this.value)
               resolvePromise(p1, x, resolve, reject)
-            })
-          } catch (e) {
-            reject(e)
-          }
+            } catch (e) {
+              reject(e)
+            }
+          })
         })
         this.onRejectedCallbacks.push(() => {
-          try {
-            let x = onRejected(this.reason)
-            setTimeout(() => {
+          setTimeout(() => {
+            try {
+              let x = onRejected(this.reason)
               resolvePromise(p1, x, resolve, reject)
-            })
-          } catch (e) {
-            reject(e)
-          }
+            } catch (e) {
+              reject(e)
+            }
+          })
         })
       }
     })

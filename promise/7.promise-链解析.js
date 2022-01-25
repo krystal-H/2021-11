@@ -9,12 +9,12 @@ let p1 = new Promise((resolve, reject) => {
   //   // reject('reject')
   // }, 1000);
 }).then(data => {
-  // return data // 1.x---普通值
+  return data // 1.x---普通值
   // throw new Error('失败') // 2.x---抛错
   // 3. x---返回的是个promise
-  return new Promise((resolve, reject) => {
-    
-  })
+  // return new Promise((resolve, reject) => {
+
+  // })
 }, err => {
   return err
 })
@@ -29,3 +29,16 @@ p1.then(data => {
 
 // 当一个promise调用then后，还可以继续then 需要返回一个promise
 // 一个promise如果一旦成功了不能变成失败态
+
+
+// 1) promise and x refer to same object  错误用法  如果不处理不会发生任何错误信息 
+
+// let p11 = new Promise((resolve, reject) => {
+//   resolve()
+// }).then(()=> {
+//   return p11; // 不能自己等待自己完成
+// })
+
+// p11.then(() => {}, err => {
+//   console.log(err)
+// })
