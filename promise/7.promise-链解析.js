@@ -9,19 +9,27 @@ let p1 = new Promise((resolve, reject) => {
   //   // reject('reject')
   // }, 1000);
 }).then(data => {
-  return data // 1.x---普通值
+  // return data // 1.x---普通值
   // throw new Error('失败') // 2.x---抛错
   // 3. x---返回的是个promise
-  // return new Promise((resolve, reject) => {
-
-  // })
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // resolve(data)
+      // reject(data)
+      resolve(new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('okokok')
+        }, 1000);
+      }))
+    }, 1000);
+  })
 }, err => {
   return err
 })
 
 p1.then(data => {
   console.log(data,'00000')
-}, err => console.log(err))
+}, err => console.log(err, 'err'))
 
 // x 就是then方法中的返回值
 // p1 调用then后返回的新的promise
@@ -42,3 +50,13 @@ p1.then(data => {
 // p11.then(() => {}, err => {
 //   console.log(err)
 // })
+
+// 2) retrieving property  then
+// let x = {}
+// Object.defineProperty(x, 'then', {
+//   get(){
+//     throw new Error('not then')
+//   }
+// })
+
+// console.log(x.then)

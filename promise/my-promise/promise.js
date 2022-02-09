@@ -6,13 +6,28 @@ function resolvePromise(promise, x, resolve, reject) {
   // console.log(promise)
   // 核心——用x的值来决定promise 走resolve还是reject
   // 我们要考虑不同人写的promise可以互相兼容，所以这里要按照规范来实现，保证promise直接可以互相调用
+  // 判断x是不是一个promise 是promise就采用他的状态，如果解析后还是promise会递归解析
   if (promise == x) {
     return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
   }
 
   // 判断x是不是一个promise   如果不是promise,则直接用这个值将promise变成成功态即可
-  if (typeof x === 'object' && x != null || typeof x ==='function') {
-    
+  if (typeof x === 'object' && x != null || typeof x === 'function') {
+    try {
+      let then = x.then // 这个x可能是通过defineProperty定义的then
+      if (typeof then === 'function') {// 这已经最小判断
+        then.call(x, y => { // 如果x是一个promise就用他的状态来决定
+          resolvePromise(promise, y, resolve, reject) // 递归解析y的值
+        }, r => { // 一旦失败了,就不在解析失败的结果了  不论r里边是不是promise
+          reject(r)
+        })
+      } else {
+        // {} / function 没有then方法  依旧是普通值 
+        resolve(x)
+      }
+    } catch (e) {
+      reject(e)
+    }
   } else {// x不是对象或函数  普通值
     resolve(x)
   }
