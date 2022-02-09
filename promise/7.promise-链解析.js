@@ -1,5 +1,5 @@
 
-const Promise = require('./my-promise/promise')
+const Promise = require('./my-promise/2.promise')
 
 let p1 = new Promise((resolve, reject) => {
   resolve(100)
