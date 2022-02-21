@@ -31,6 +31,18 @@ p1.then(data => {
   console.log(data,'00000')
 }, err => console.log(err, 'err'))
 
+
+// 继续补充  参考原生的promise写2.promise.js中的原理
+new Promise((resolve, reject) => {
+  // resolve('ok')
+  reject('err')
+}).then().then().then().then(data => {
+  console.log(data, '393939')
+}, err => {
+  console.log('my-err')
+})
+
+
 // x 就是then方法中的返回值
 // p1 调用then后返回的新的promise
 // 我们用x的值 来决定p1 是成功还是失败

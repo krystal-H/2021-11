@@ -13,12 +13,20 @@ function resolvePromise(promise, x, resolve, reject) {
 
   // 判断x是不是一个promise   如果不是promise,则直接用这个值将promise变成成功态即可
   if (typeof x === 'object' && x != null || typeof x === 'function') {
+    let called = false
     try {
       let then = x.then // 这个x可能是通过defineProperty定义的then
       if (typeof then === 'function') {// 这已经最小判断
+
+        // 这个then方法可能是别人家的promise，没有处理同时调用成功和失败的方法 
+
         then.call(x, y => { // 如果x是一个promise就用他的状态来决定
+          if (called) return
+          called = true
           resolvePromise(promise, y, resolve, reject) // 递归解析y的值
         }, r => { // 一旦失败了,就不在解析失败的结果了  不论r里边是不是promise
+          if (called) return
+          called = true
           reject(r)
         })
       } else {
@@ -26,6 +34,8 @@ function resolvePromise(promise, x, resolve, reject) {
         resolve(x)
       }
     } catch (e) {
+      if (called) return
+      called = true
       reject(e)
     }
   } else {// x不是对象或函数  普通值
@@ -64,6 +74,10 @@ class Promise {
   }
   // then返回一个promise才可以继续 .then
   then(onFulfilled, onRejected) { // 调用then的时候会判断是成功还是失败
+    // 继续补充的判断，then中的两个方法是否存在
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : val => val
+    onRejected = typeof onRejected === 'function' ? onRejected : e => { throw e }
+
     // 可以不停的then下去
     let p1 = new Promise((resolve, reject) => {
       // x是个普通值时，则将这个值直接传入到resolve中即可
@@ -115,5 +129,19 @@ class Promise {
     return p1
   }
 }
+
+Promise.deferred = function() {
+  let dfd = {}
+  dfd.promise = new Promise((resolve, reject) => {
+    dfd.resolve = resolve
+    dfd.reject = reject
+  })
+  return dfd
+}
+// 这里会拿到此方法的返回结果来测试是否符合规范
+// npm install promises-aplus-tests -g 全局安装都是在命令行中使用
+
+// promises-aplus-tests 测试的文件名
+
 
 module.exports = Promise
