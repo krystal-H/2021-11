@@ -128,6 +128,13 @@ class Promise {
     })
     return p1
   }
+
+  // 类本身调用的叫静态方法
+  static resolve(data) {
+    return new Promise((resolve, reject) => {
+      resolve(data)
+    })
+  }
 }
 
 Promise.deferred = function() {
