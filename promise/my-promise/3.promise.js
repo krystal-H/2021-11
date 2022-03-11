@@ -53,6 +53,9 @@ class Promise {
     this.onRejectedCallbacks = [] // 所有失败的回调，为了存储异步执行
 
     const resolve = (value) => { // 更改状态的方法  resolve
+      if (value instanceof Promise) { // 这个不属于规范
+        return value.then(resolve, reject)
+      }
       if (this.status === PENDING) {
         this.value = value
         this.status = FULFILLED
@@ -127,6 +130,24 @@ class Promise {
       }
     })
     return p1
+  }
+
+  // 类本身调用的叫静态方法
+  static resolve(data) {
+    return new Promise((resolve, reject) => {
+      resolve(data)
+    })
+  }
+
+  static reject(data) {
+    // 默认创建一个失败的promise
+    return new Promise((resolve, reject) => {
+      reject(data)
+    })
+  }
+
+  catch(errCallback) {
+    return this.then(null, errCallback)
   }
 }
 
