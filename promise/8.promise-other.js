@@ -27,6 +27,7 @@ const Promise = require('./my-promise/3.promise')
 // })
 
 // 上下等价  与上边写法一等价*****
+// 调用类的静态方法
 Promise.resolve('ok').then(data => {
   console.log(data)
 })
@@ -37,7 +38,7 @@ Promise.resolve(new Promise((resolve, reject) => {
     resolve('hello success!')
   }, 1000)
 })).then(data => {
-  console.log(data)
+  console.log(data, 'hello success这个输出的打印')
 })
 
 Promise.reject(new Promise((resolve, reject) => {
@@ -55,5 +56,5 @@ Promise.reject(new Promise((resolve, reject) => {
     resolve('hello failed!')
   }, 1000)
 })).catch(err => {
-  console.log('catch-err', err)
+  console.log('catch-err****', err)
 })
