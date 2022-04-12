@@ -1,19 +1,20 @@
 
 const fs = require('fs')
 const path = require('path')
+const { promisify } = require('util')
 
 const Promise1 = require('./my-promise/4.promise')
 
-function readFile(url, encoding) {
-  // 延迟对象的使用场景
-  let dfd = Promise1.deferred()
-  fs.readFile(path.resolve(__dirname, url), encoding, function (err, data) {
-    if (err) return dfd.reject(err)
-    dfd.resolve(data)
-  })
+// function readFile(url, encoding) {
+//   // 延迟对象的使用场景
+//   let dfd = Promise1.deferred()
+//   fs.readFile(path.resolve(__dirname, url), encoding, function (err, data) {
+//     if (err) return dfd.reject(err)
+//     dfd.resolve(data)
+//   })
 
-  return dfd.promise
-}
+//   return dfd.promise
+// }
 
 // 执行完毕后会将结果放到数组里，all的含义就是都成功才成功，有一个失败就失败了
 Promise.all = function (promises) {
@@ -37,6 +38,16 @@ Promise.all = function (promises) {
       })
     }
   })
+}
+
+let readFile = promisify(fs.readFile) // 仅仅针对node中的api  因为node中的回调方法  都有err 和data
+
+function promisify(fn) {
+  return function () { // readFile可调用  返回方法
+    return new Promise((resolve, reject) => {
+
+    })
+  }
 }
 
 Promise.all([readFile(path.resolve(__dirname, 'name.txt'), 'utf-8'), readFile(path.resolve(__dirname, 'age.txt'), 'utf-8'), '123']).then(data => {
