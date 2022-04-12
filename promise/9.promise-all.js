@@ -15,12 +15,19 @@ function readFile(url, encoding) {
   return dfd.promise
 }
 
-// readFile('file.txt', 'utf-8').then(data => {
-//   console.log(data)
-// })
 
 Promise.all = function (promises) {
+  let result = []
+  let times = 0
   return new Promise((resolve, reject) => {
+
+    function processResult(data,index) {
+      result[index] = data
+      if (++times == promises.length) {
+        resolve(result)
+      }
+    }
+
     for (let i = 0; i < promises.length; i++) {
       const promise = promises[i]
       // 将其包裹成prmise对象
