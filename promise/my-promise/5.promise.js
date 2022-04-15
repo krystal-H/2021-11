@@ -169,6 +169,16 @@ class Promise {
     })
   }
 
+  static race = function (promises) {
+    return new Promise((resolve, reject) => {
+      for (let i = 0; i < promises.length; i++) {
+        const promise = promises[i]
+        // 将其包裹成prmise对象
+        Promise.resolve(promise).then(resolve, reject)
+      }
+    })
+  }
+
   catch(errCallback) {
     return this.then(null, errCallback)
   }

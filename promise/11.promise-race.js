@@ -1,4 +1,4 @@
-const { promisifyAll } = require('./my-promise/5.promise')
+const { promisifyAll, Promise } = require('./my-promise/5.promise')
 
 const fs = require('fs')
 const path = require('path')
