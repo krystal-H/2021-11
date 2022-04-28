@@ -2,7 +2,6 @@
 
 // 利用高阶函数可以处理哪些问题 
 // 1）扩展方法
-
 function say(args) {// 需要对say方法进行扩展，但是不能修改源代码
   console.log('say', args)
 }
@@ -54,3 +53,35 @@ console.log(isString(12))
 
 // 函数柯里化 就是将多个参数转化成一次传入一个参数
 // 异步编程问题 主要有一个并发处理的问题
+
+
+// 通用的柯里化函数
+function sum(a, b, c, d, e, f) {
+  return a + b + c + d + e + f
+}
+// console.log(sum(1, 2, 3, 4, 5, 6))
+
+function curring(fn) {
+  // 两种情况，需要看传入的参数个数和预制的+执行的参数个数判断，如果不满足个数则返回一个函数，满足个数则让函数执行
+  const len = fn.length // 函数参数的个数
+  const presetArgs = Array.from(arguments).slice(1)
+  return (...args) => {
+    const allArgs = [...presetArgs, ...args]
+    if (allArgs.length >= len) {
+      return fn(...allArgs) // 参数满足就让柯里化的函数直接执行
+    } else {
+      return curring(fn, ...allArgs) // 如果不满足则递归柯里化
+    }
+  }
+}
+
+let fn = curring(sum, 1, 2)
+// console.log(fn(3, 4)(5)(6))
+
+// 这样就可以用下通用柯里化方法
+let newType = curring(isType)
+const fnString = newType('String')
+const fnNumber = newType('Number')
+
+console.log(fnString('abc'), '----')
+console.log(fnNumber(123), '----')
