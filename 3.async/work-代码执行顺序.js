@@ -3,7 +3,7 @@
 console.log(1);
 async function async() { // async + await = generator + co
   console.log(2);
-  await console.log(3); // yield fn()  Promise.resolve(fn()).then(() => console.log(4))
+  await console.log(3); // yield fn()  Promise.resolve(console.log(3)).then(() => console.log(4))
   console.log(4)
 }
 setTimeout(() => {

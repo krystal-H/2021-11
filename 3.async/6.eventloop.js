@@ -21,7 +21,7 @@
 // 事件环：无线循环的线程（事件触发线程）目的就是为了调度任务的
 
 // 分类（都是异步的）
-// 宏任务：<script>、ui渲染、定时器、ajax、http请求、事件(用户操作click/mousemove)、messgaeChanel、setImmediate(IE下)
+// 宏任务：<script>、ui渲染、定时器setTimeOut、ajax、http请求、事件(用户操作click/mousemove)、messgaeChanel、setImmediate(IE下)
 // 微任务：原生的promise、mutationObserver、node中的process.nextTick、queueMicroTask
 
 // 异步方法：requestFrameAnimation requestIDleCallback(这两个方法是跟渲染相关的，不算事件环的一部分，但是也有人把它们规划成宏任务)
@@ -39,3 +39,11 @@
 
 // 如果宏任务空了，事件触发线程就会进入到休眠状态，等待宏任务中有新任务，按照流程继续执行
 // 执行代码完毕后，会清空微任务（执行多个），宏任务每次只执行一个
+
+
+// 消息队列 其实在内部是有多个队列组成的，理解的时候我们说宏任务只有一个
+// 一个任务队列(集合) 是有多个队列组成的  每个队列中有多个任务
+// 选择要执行的队列
+
+// 我们直接理解成只有一个宏任务队列（其实是有多个的）
+// 宏任务是一个独立的队列  每次宏任务会产生一个微任务队列
