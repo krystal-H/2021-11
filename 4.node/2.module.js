@@ -1,3 +1,4 @@
+// 实现基本版本的commonjs
 const path = require('path')
 const fs = require('fs')
 const vm = require('vm')

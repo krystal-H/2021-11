@@ -45,20 +45,48 @@ console.log(userArgs)
 
 // https://www.npmjs.com/package/commander
 // commander命令行管家  第三方模块用的时候需要下载
-const commander = require('commander')
-const { program } = require('commander')
-program.version('0.0.1')
-program
-  .option('-d, --debug', 'output extra debugging')
-  .option('-s, --small', 'small pizza size')
-  .option('-p, --pizza-type <type>', 'flavour of pizza')
-  .command('run').action(() => {
-    console.log('run');
-  })
+// const commander = require('commander')
+// const { program } = require('commander')
+// program.version('0.0.1')
+// program
+//   .option('-d, --debug', 'output extra debugging')
+//   .option('-s, --small', 'small pizza size')
+//   .option('-p, --pizza-type <type>', 'flavour of pizza')
+//   .command('run').action(() => {
+//     console.log('run');
+//   })
 
-program.parse(process.argv)
+// program.parse(process.argv)
 
-const options = program.opts();
-console.log(options)
+// const options = program.opts();
+// console.log(options)
 
 // nextTick
+process.nextTick(() => { // 异步的，把他叫成微任务  不属于事件环的一部分   下一队列，本轮任务执行完毕后会立即执行
+  console.log('nextTick')
+})
+
+Promise.resolve().then(() => { // promise也不属于node中的事件环
+  console.log('promise')
+})
+
+// node里会先执行process.nextTick
+
+// node中自己实现了一个事件环机制（新版本的node执行结果和浏览器执行的结果一样）底层实现的方式不一样
+// 对于浏览器而言 宏任务只有一个队列，对于node而言  setImmediate/setTimeout    创造了多个宏任务队列
+
+
+// 如果在i/o操作中下一个事件队列要执行的是check, 所以setImmediate 优先级高于setTimeout
+require('fs').readFile('./node.md', () => {
+  setTimeout(() => {
+    console.log('setTimeout')
+  })
+  setImmediate(() => {
+    console.log('setImmediate')
+  })
+})
+
+// node和浏览器事件环的差异  浏览器1个队列  node多个队列
+// 执行顺序都是   先执行代码-》（node会清空nextTick）-》清空微任务-》再取出一个和宏任务来执行，
+// 当达到poll阶段后，如果check阶段为空，而且poll里面也没有io操作，此时不会继续轮询，
+// 会等待定时器到达事件，重新执行或者有新的i/o操作进入到poll阶段
