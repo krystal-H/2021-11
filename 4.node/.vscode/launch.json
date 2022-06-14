@@ -11,7 +11,8 @@
       "skipFiles": [
         // "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}\\2.module.js"
+      // "program": "${workspaceFolder}\\2.module.js"
+      "program": "${workspaceFolder}\\5.core-events.js"
     }
   ]
 }
