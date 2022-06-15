@@ -15,4 +15,10 @@
 console.log(module.paths) // C:\Users\800558\AppData\Roaming\npm
 // 常见的功能就是一些编译操作都是全局模块，脚手架  也都是全局的 (vue/cli  create-react-app)
 
+// 1)我们需要创建可执行文件  添加执行环境  #! /user/bin/env node
+// 2)配置package.json中的bin参数
+// 3)npm link 创建软连接到全局  （为了测试）
+// C:\Users\800558\AppData\Roaming\npm\my-npm-package -> C:\Users\800558\AppData\Roaming\npm\node_modules\my-npm-package\bin\www
+// C:\Users\800558\AppData\Roaming\npm\node_modules\my-npm-package -> E:\3.202111\4.node\7.Buffer
+
 // 只要是一个包必须有一个package.json     npm init -y

@@ -1,0 +1,3 @@
+#! /user/bin/env node
+
+console.log('hello world!') // #! 这句表示采用node来执行此文件
