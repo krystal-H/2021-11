@@ -2,7 +2,7 @@
 // 引用的时候 不需要加相对路径挥着绝对路径
 
 // npm node package manager 包管理工具 当我们安装node后可以直接使用
-// 环境变量npkm node 安装到环境变量中的都可以直接使用（只要需要全局使用都需要配置到path中）
+// 环境变量npm node 安装到环境变量中的都可以直接使用（只要需要全局使用都需要配置到path中）
 
 // node里边有3个n npm nrm(管理从哪里去下载的) nvm(在window下)切换node版本
 
@@ -15,4 +15,4 @@
 console.log(module.paths) // C:\Users\800558\AppData\Roaming\npm
 // 常见的功能就是一些编译操作都是全局模块，脚手架  也都是全局的 (vue/cli  create-react-app)
 
-
+// 只要是一个包必须有一个package.json     npm init -y
