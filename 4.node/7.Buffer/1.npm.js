@@ -22,3 +22,4 @@ console.log(module.paths) // C:\Users\800558\AppData\Roaming\npm
 // C:\Users\800558\AppData\Roaming\npm\node_modules\my-npm-package -> E:\3.202111\4.node\7.Buffer
 
 // 只要是一个包必须有一个package.json     npm init -y
+
