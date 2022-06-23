@@ -3,11 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "1.npm.js",
-  "bin": "./bin/www",
+  "bin": {
+    "n": "./bin/www",
+    "my-npm-package": "./bin/www"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "mime": "mime"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "mime": "^3.0.0"
+  },
+  "devDependencies": {
+    "rollup": "^2.75.7"
+  }
 }
