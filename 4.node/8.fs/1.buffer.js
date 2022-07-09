@@ -5,6 +5,7 @@
 
 // 1
 const buffer = Buffer.from('珠峰') // node中默认不支持gbk编码(在utf8中一个汉字是三个字节)
+console.log(buffer.toString())
 console.log(buffer.toString('base64')) // 可以将buffer转成对应的编码  utf8/base64
 
 // 2
