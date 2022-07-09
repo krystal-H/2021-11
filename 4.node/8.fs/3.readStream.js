@@ -15,7 +15,8 @@ const path = require('path')
 // start ?: number | undefined;
 // highWaterMark ?: number | undefined;
 
-let rs = fs.createReadStream(path.resolve(__dirname, 'test'), {
+// fs.createReadStream(path.resolve(__dirname, 'test'), {
+let rs = new ReadStream(path.resolve(__dirname, 'test'), {
   flags: 'r', // 默认就是r表示读取操作
   encoding: null, // 默认读取出的数据是二进制格式
   // mode: 438 // 读写模式  操作权限
